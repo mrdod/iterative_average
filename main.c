@@ -13,8 +13,12 @@ double iterative_average(double *input_value_array, long long unsigned int input
 double rand_range(double min, double max);
 
 int main() {
+    FILE* fp;
     double array_of_doubles[INPUT_ARRAY_SIZE];
     double averaged_value;
+
+    // Open input values file
+    fp = fopen("input_values.txt","w+");
 
     // Set seed for random function to be based on current time
     srand(time(NULL));
@@ -23,7 +27,11 @@ int main() {
     for (long long unsigned int index = 0; index < INPUT_ARRAY_SIZE; index++) {
         double value = rand_range(RAND_RANGE_MIN, RAND_RANGE_MAX);
         array_of_doubles[index] = value;
+        fprintf(fp,"%f\n", value);
     }
+
+    // Close input values file
+    fclose(fp);
 
     // Run the iterative iterative_average function
     averaged_value = iterative_average(array_of_doubles, INPUT_ARRAY_SIZE);
@@ -32,7 +40,7 @@ int main() {
     if(averaged_value == DBL_MAX){
         printf("Error occurred, please check configuration");
     } else {
-        printf("%f", averaged_value);
+        printf("The average value is: %f", averaged_value);
     }
 }
 
