@@ -10,7 +10,7 @@
 
 /* Function Prototypes */
 double iterative_average(double *input_value_array, long long unsigned int input_value_array_size);
-double rand_range(double min, double max);
+double rand_double_range(double min, double max);
 
 int main() {
     FILE* fp;
@@ -25,7 +25,8 @@ int main() {
 
     // Create the array of random values
     for (long long unsigned int index = 0; index < INPUT_ARRAY_SIZE; index++) {
-        double value = rand_range(RAND_RANGE_MIN, RAND_RANGE_MAX);
+        double value = rand_double_range(RAND_RANGE_MIN, RAND_RANGE_MAX);
+
         array_of_doubles[index] = value;
         fprintf(fp,"%f\n", value);
     }
@@ -83,18 +84,22 @@ double iterative_average(double *input_value_array, long long unsigned int input
 /*
  * Random Range Function Definition
  *
+ * In order to get a good assortment of floating point values, we need
+ * to specify a range and will use that to calculate a value.
+ *
  * Output:
- * Random double value within the range provided
+ * Random double value within the range provided. Will return DBL_MAX
+ * if min config is less than max config.
  */
-double rand_range(double min, double max) {
+double rand_double_range(double min, double max) {
+
     // Ensure min is less than max
     if(min > max){
         return DBL_MAX;
     }
 
     double random = ((double) rand()) / RAND_MAX;
-    double range = (max - min) * random;
-    double number = min + range;
+    double bottom = (max - min) * random;
 
-    return number;
+    return(min + bottom);
 }
